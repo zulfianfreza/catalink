@@ -304,7 +304,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     },
   })
 
-  if (!isDemo) {
+  if (!isDemo && user) {
     await prisma.site.upsert({
       create: {
         viewCount: 1,

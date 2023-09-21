@@ -17,16 +17,16 @@ import { DashboardTemplate } from '~/components/template'
 import { prisma } from '~/lib/db'
 import { trpc } from '~/lib/trpc'
 
-export default function DashboardPage() {
-  const [links, setLinks] = useState<Link[]>([])
+interface PageProps {
+  links: Link[]
+}
 
-  const { data, isLoading, refetch } = trpc.link.getLinks.useQuery(undefined, {
-    onSuccess(data) {
-      setLinks(data)
-    },
-  })
+export default function DashboardPage({ links }: PageProps) {
+  const [linksData, setLinksData] = useState<Link[]>(links)
 
-  const dataLinks = links ? links : data
+  const { isLoading, refetch } = trpc.link.getLinks.useQuery(undefined, {})
+
+  // const dataLinks = links ? links : data
 
   const hotReloadIframe = async () => {
     const links = await refetch()
@@ -75,7 +75,7 @@ export default function DashboardPage() {
     const [removed] = newLinks.splice(source.index, 1)
     newLinks.splice(destination.index, 0, removed!)
 
-    setLinks(newLinks as Link[])
+    setLinksData(newLinks as Link[])
 
     console.log(newIndex, oldIndex)
 
@@ -88,30 +88,7 @@ export default function DashboardPage() {
       <NextSeo title='Dashboard - Circle' />
       <ContentContainer>
         <AddLink refetch={hotReloadIframe} />
-        {isLoading ? (
-          <div className=' flex h-full w-full flex-col items-center justify-center gap-y-4'>
-            <svg
-              className='-ml-1 mr-3 h-5 w-5 animate-spin text-violet-700'
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-            >
-              <circle
-                className='opacity-25'
-                cx={12}
-                cy={12}
-                r={10}
-                stroke='currentColor'
-                strokeWidth={4}
-              />
-              <path
-                className='opacity-75'
-                fill='currentColor'
-                d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-              />
-            </svg>
-          </div>
-        ) : dataLinks?.length == 0 ? (
+        {linksData?.length == 0 ? (
           <EmptyState />
         ) : (
           <DragDropContext onDragEnd={reorderLinks}>
@@ -122,7 +99,7 @@ export default function DashboardPage() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  {dataLinks?.map((link, i) => (
+                  {linksData?.map((link, i) => (
                     <Draggable draggableId={link.id} key={link.id} index={i}>
                       {(provided) => (
                         <li
@@ -189,6 +166,13 @@ export async function getServerSideProps(context: any) {
     },
   })
 
+  const links = await prisma.link.findMany({
+    where: {
+      userId: user?.id ?? null,
+    },
+    orderBy: [{ index: 'asc' }],
+  })
+
   if (user?.username == null || !user?.username) {
     return {
       redirect: {
@@ -197,5 +181,9 @@ export async function getServerSideProps(context: any) {
       },
     }
   }
-  return { props: {} }
+  return {
+    props: {
+      links,
+    },
+  }
 }
