@@ -53,24 +53,22 @@ export default function SocialIconItem({ socialIcon }: SocialIconItemProps) {
   }
 
   return (
-    <>
-      <div className='flex items-center gap-x-4'>
-        <button
-          className='group flex h-14 flex-1 items-center justify-between gap-x-4 rounded-lg px-4 hover:bg-gray-100'
-          onClick={handleOpen}
-        >
-          <div className='flex items-center gap-x-4'>
-            <Icon icon={icon?.icon ?? HiAtSymbol} size={20} />
-            <p className=' font-medium'>{icon?.label}</p>
-          </div>
-          <HiPencil size={20} className='hidden group-hover:block' />
-        </button>
-        <Switch
-          className=' data-[state=checked]:bg-green-700 data-[state=unchecked]:bg-gray-200'
-          checked={active}
-          onCheckedChange={handleUpdateActive}
-        />
-      </div>
-    </>
+    <div className='flex items-center gap-x-4'>
+      <button
+        className='group flex h-14 flex-1 items-center justify-between gap-x-4 rounded-lg px-4 hover:bg-gray-100'
+        onClick={handleOpen}
+      >
+        <div className='flex items-center gap-x-4'>
+          <Icon icon={icon?.icon ?? HiAtSymbol} size={20} />
+          <p className=' font-medium'>{icon?.label}</p>
+        </div>
+        <HiPencil size={20} className='hidden group-hover:block' />
+      </button>
+      <Switch
+        className=' data-[state=checked]:bg-green-700 data-[state=unchecked]:bg-gray-200'
+        checked={active}
+        onCheckedChange={handleUpdateActive}
+      />
+    </div>
   )
 }

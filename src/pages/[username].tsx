@@ -91,7 +91,12 @@ export default function CirclePage({
       style={themeStyle}
     >
       <div className=' bg-black/25 backdrop-blur-2xl'>
-        <NextSeo title={`${profileTitle} - Circle`} />
+        <NextSeo
+          title={`${
+            site.metaTitle != '' ? site.metaTitle : profileTitle
+          } - Catalink`}
+          description={site.metaDescription ?? ''}
+        />
         <div
           className={cn(
             ' relative mx-auto flex h-full min-h-screen w-full max-w-lg flex-col p-5 pb-0 pt-16',

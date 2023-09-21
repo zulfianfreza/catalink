@@ -101,8 +101,6 @@ export default function SettingsPage() {
               <CardSeo site={site} refetch={refetchSite} />
             )}
           </div>
-          <ModalAddSocialIcon socialIcons={socialIcons} />
-          <ModalEditSocialIcon />
         </ContentContainer>
       </DashboardTemplate>
     </>

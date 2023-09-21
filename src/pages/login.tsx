@@ -8,11 +8,11 @@ export default function LoginPage() {
   return (
     <div className=' relative flex min-h-screen w-full bg-white'>
       <div className=' flex-1'>
-        <div className=' flex justify-center p-10'>
-          <div className=' flex w-[640px] flex-col justify-center p-10 pt-28'>
+        <div className=' flex w-full justify-center p-8 lg:p-10'>
+          <div className=' flex w-full max-w-[480px] flex-col justify-center pt-28 lg:w-[560px] lg:max-w-[640px] lg:p-10 xl:w-[640px]'>
             <div className=' text-center'>
               <h1 className=' text-[44px] font-bold'>Welcome Back</h1>
-              <p className='  text-gray-500'>Login to your circle.link</p>
+              <p className='  text-gray-500'>Login to your Catalink</p>
             </div>
             {/* <div className=' mt-16 space-y-3'>
               <Input label='Username' />
@@ -43,7 +43,7 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <div className='right-0 top-0 flex h-screen w-[482px] items-center justify-center bg-indigo-200'>
+      <div className='right-0 top-0 hidden h-screen items-center justify-center bg-indigo-200 lg:flex lg:w-[408] xl:w-[482px]'>
         <div className=' relative aspect-square w-[450px]'>
           <Image
             src='/images/thumbnail-hero.png'

@@ -23,14 +23,13 @@ interface ModalEditSocialIconProps {
 
 export default function ModalEditSocialIcon() {
   const [step, setStep] = useState(STEP.EDIT)
-  const [selectedSocial, setSelectedSocial] = useState('')
   const [url, setUrl] = useState('')
 
   const editSocialIconModal = useEditSocialIconModal()
 
   useEffect(() => {
     setUrl(editSocialIconModal.socialIcon.url)
-  }, [])
+  }, [editSocialIconModal])
 
   const handleClose = () => {
     editSocialIconModal.onClose()
@@ -47,7 +46,7 @@ export default function ModalEditSocialIcon() {
       onSuccess: () => {
         refetchSocialIcon()
         toast.success('success')
-        editSocialIconModal.onClose()
+        handleClose()
       },
     }
   )
@@ -63,7 +62,7 @@ export default function ModalEditSocialIcon() {
       onSuccess: () => {
         refetchSocialIcon()
         toast.success('success')
-        editSocialIconModal.onClose()
+        handleClose()
       },
     }
   )
@@ -75,7 +74,7 @@ export default function ModalEditSocialIcon() {
     })
   }
 
-  const socialIcon = SOCIAL_ICON_LIST.find(
+  const selectedIcon = SOCIAL_ICON_LIST.find(
     (icon) => icon.id == editSocialIconModal.socialIcon.iconId
   )
 
@@ -83,7 +82,7 @@ export default function ModalEditSocialIcon() {
     <>
       <div className=' relative p-4 py-6'>
         <div className=' text-center'>
-          <p className=' font-semibold'>Edit {socialIcon?.label}</p>
+          <p className=' font-semibold'>Edit {selectedIcon?.label}</p>
         </div>
         <div
           className=' absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer rounded-lg p-2 hover:bg-gray-100'
@@ -122,7 +121,7 @@ export default function ModalEditSocialIcon() {
       <>
         <div className=' relative p-4 py-6'>
           <div className=' text-center'>
-            <p className=' font-semibold'>Remove {socialIcon?.label} Icon</p>
+            <p className=' font-semibold'>Remove {selectedIcon?.label} Icon</p>
           </div>
           <div
             className=' absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer rounded-lg p-2 hover:bg-gray-100'

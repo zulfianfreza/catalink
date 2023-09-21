@@ -30,7 +30,7 @@ export default function Home({ user }: HomeProps) {
         >
           <div className='flex items-center justify-between'>
             <div className=''>
-              <Logo className=' h-6 w-6' />
+              <Logo className='' />
             </div>
             <div className='flex flex-row-reverse items-center gap-x-2'>
               {user ? (
@@ -51,10 +51,10 @@ export default function Home({ user }: HomeProps) {
               ) : (
                 <div className=' flex flex-row-reverse items-center gap-x-4'>
                   <Link
-                    href='/'
+                    href='/login'
                     className=' flex h-12 items-center justify-center rounded-full bg-violet-700 px-8 text-sm text-white'
                   >
-                    Register free
+                    Register
                   </Link>
                   <Link
                     href='/login'
@@ -70,12 +70,13 @@ export default function Home({ user }: HomeProps) {
 
         <div className=' flex h-screen w-full bg-gradient-to-b from-violet-100 to-white p-10 pt-20'>
           <div className=' flex flex-1 flex-col justify-center'>
-            <div className=' space-y-2'>
-              <h1 className=' text-[72px] font-black leading-none text-gray-800'>
-                Everything you are. In one, simple link in bio.
+            <div className='flex flex-col'>
+              <h1 className=' text-[56px] font-black leading-none text-gray-800 md:text-[56px] lg:text-[72px]'>
+                One link to everything.
               </h1>
-              <p className=' text-gray-500'>
-                Join 16M+ people using Linktree for their link in bio.
+              <p className=' mt-4 text-gray-500'>
+                Catalink is a single link that you can share in your bio or
+                social media posts.
               </p>
             </div>
             <div className=' mt-8 flex gap-x-2'>
@@ -101,8 +102,8 @@ export default function Home({ user }: HomeProps) {
               </Link>
             </div>
           </div>
-          <div className=' flex flex-1 justify-center'>
-            <div className=' relative w-[500px]'>
+          <div className='hidden flex-1 justify-center md:flex'>
+            <div className=' relative md:w-[350px] lg:w-[450px] xl:w-[500px]'>
               <Image
                 src='/images/thumbnail-hero.png'
                 fill

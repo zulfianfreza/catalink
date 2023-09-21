@@ -271,33 +271,3 @@ export default function ModalAddThumbnailIcon({
     </Transition>
   )
 }
-
-interface IconItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  icon: {
-    label: string
-    icon: IconType
-  }
-  disabled?: boolean
-}
-
-function IconItem({
-  icon: { label, icon: Icon },
-  disabled,
-  ...props
-}: IconItemProps) {
-  return (
-    <button
-      disabled={disabled}
-      className={cn(
-        ' flex h-[60px] w-full cursor-pointer items-center justify-between rounded-full px-6 font-medium hover:bg-gray-100'
-      )}
-      {...props}
-    >
-      <div className='flex items-center gap-x-4'>
-        <Icon size={20} />
-        {label}
-      </div>
-      {disabled && <p className=' text-sm text-green-700'> ady added</p>}
-    </button>
-  )
-}

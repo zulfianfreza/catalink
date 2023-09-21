@@ -212,7 +212,7 @@ function IconItem({
         <Icon size={20} />
         {label}
       </div>
-      {disabled && <p className=' text-sm text-green-700'> ady added</p>}
+      {disabled && <p className=' text-sm text-green-700'> already added</p>}
     </button>
   )
 }
