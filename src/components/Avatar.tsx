@@ -16,7 +16,7 @@ export default function Avatar({ src, className }: AvatarProps) {
       )}
     >
       <Image
-        src={src!}
+        src={src ?? ''}
         alt='Avatar'
         fill={true}
         className=' object-cover object-center'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconBaseProps, IconType } from 'react-icons'
+import type { IconBaseProps, IconType } from 'react-icons'
 
 interface IconProps extends IconBaseProps {
   icon: IconType
