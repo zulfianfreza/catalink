@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  username      String?
+
+  accounts   Account[]
+  sessions   Session[]
+  links      Link[]
+  theme      Theme?
+  socialIcon SocialIcon[]
+  site       Site?
+
+  @@unique([username])
+}
+
+model Site {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String? @unique @db.ObjectId
+  profileTitle    String?
+  bio             String?
+  profileImage    String?
+  viewCount       Int?    @default(0)
+  metaTitle       String?
+  metaDescription String?
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+model Link {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  type       String
+  label      String?
+  content    String?
+  active     Boolean
+  index      Int?
+  userId     String? @db.ObjectId
+  clickCount Int     @default(0)
+
+  thumbnailType  String?
+  imageUrl       String?
+  iconId         Int?
+  headerPosition String?
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+model Theme {
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId              String?  @unique @db.ObjectId
+  backgroundType      String
+  backgroundPrimary   String?
+  backgroundSecondary String?
+  backgroundImage     String?
+  fontFamily          String?
+  fontColor           String?
+  buttonType          String?
+  buttonColor         String?
+  buttonFontColor     String?
+  shadowColor         String?
+  socialIconPosition  String?
+  hideLogo            Boolean?
+  backgroundPosition  Boolean?
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+model SocialIcon {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  iconId Int
+  url    String
+  active Boolean
+  userId String  @db.ObjectId
+
+  user User? @relation(fields: [userId], references: [id])
+}
