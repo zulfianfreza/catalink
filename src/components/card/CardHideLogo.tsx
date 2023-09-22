@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast'
 import { trpc } from '~/lib/trpc'
 import { Switch } from '../ui/switch'
 import Logo from '../Logo'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 interface CardHideLogoProps {
   theme: Theme | null | undefined
@@ -14,8 +15,15 @@ export default function CardHideLogo({ theme, refetch }: CardHideLogoProps) {
   const [hideLogo, setHideLogo] = React.useState<boolean>(
     theme?.hideLogo ?? false
   )
+
+  const previewLoading = usePreviewLoading()
+
   const updateThemeMutation = trpc.theme.updateTheme.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess() {
+      previewLoading.setIsLoading(false)
       refetch()
       toast.success('success')
     },
