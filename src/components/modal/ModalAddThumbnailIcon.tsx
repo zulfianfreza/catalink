@@ -13,6 +13,7 @@ import { SOCIAL_ICON_LIST } from '~/lib/data/social-icon'
 import { trpc } from '~/lib/trpc'
 import { cn } from '~/lib/utils'
 import { Input } from '../ui/input'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 enum STEP {
   LIST = 0,
@@ -67,8 +68,14 @@ export default function ModalAddThumbnailIcon({
     }, 300)
   }
 
+  const previewLoading = usePreviewLoading()
+
   const updateLinkMutation = trpc.link.updateLink.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess() {
+      previewLoading.setIsLoading(false)
       refetch()
       hotReload()
       toast.success('success')

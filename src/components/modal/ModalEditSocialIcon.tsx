@@ -11,6 +11,7 @@ import useSocialIcon from '~/hooks/useSocialIcon'
 import useAddSocialIconModal from '~/hooks/useAddSocialIconModal'
 import { SocialIcon } from '@prisma/client'
 import useEditSocialIconModal from '~/hooks/useEditSocialIconModal'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 enum STEP {
   EDIT = 0,
@@ -41,9 +42,15 @@ export default function ModalEditSocialIcon() {
 
   const { hotReloadIframe: refetchSocialIcon } = useSocialIcon()
 
+  const previewLoading = usePreviewLoading()
+
   const deleteSocialIconMutation = trpc.socialicon.deleteSocialIcon.useMutation(
     {
+      onMutate: () => {
+        previewLoading.setIsLoading(true)
+      },
       onSuccess: () => {
+        previewLoading.setIsLoading(false)
         refetchSocialIcon()
         toast.success('success')
         handleClose()
@@ -59,7 +66,11 @@ export default function ModalEditSocialIcon() {
 
   const updateSocialIconMutation = trpc.socialicon.updateSocialIcon.useMutation(
     {
+      onMutate: () => {
+        previewLoading.setIsLoading(true)
+      },
       onSuccess: () => {
+        previewLoading.setIsLoading(false)
         refetchSocialIcon()
         toast.success('success')
         handleClose()

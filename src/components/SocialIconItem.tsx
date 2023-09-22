@@ -8,6 +8,7 @@ import { SOCIAL_ICON_LIST } from '~/lib/data/social-icon'
 import { trpc } from '~/lib/trpc'
 import Icon from './Icon'
 import { Switch } from './ui/switch'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 interface SocialIconItemProps {
   socialIcon: SocialIcon
@@ -23,9 +24,15 @@ export default function SocialIconItem({ socialIcon }: SocialIconItemProps) {
 
   const { hotReloadIframe } = useSocialIcon()
 
+  const previewLoading = usePreviewLoading()
+
   const updateSocialIconMutation = trpc.socialicon.updateSocialIcon.useMutation(
     {
+      onMutate: () => {
+        previewLoading.setIsLoading(true)
+      },
       onSuccess: () => {
+        previewLoading.setIsLoading(false)
         toast.success('success')
         hotReloadIframe()
       },

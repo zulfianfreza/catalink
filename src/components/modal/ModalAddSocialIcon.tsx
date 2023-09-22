@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast'
 import useSocialIcon from '~/hooks/useSocialIcon'
 import useAddSocialIconModal from '~/hooks/useAddSocialIconModal'
 import { SocialIcon } from '@prisma/client'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 enum STEP {
   LIST = 0,
@@ -71,8 +72,14 @@ export default function ModalAddSocialIcon({
 
   const { hotReloadIframe: refetchSocialIcon } = useSocialIcon()
 
+  const previewLoading = usePreviewLoading()
+
   const addSocialIconMutation = trpc.socialicon.addSocialIcon.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess: () => {
+      previewLoading.setIsLoading(false)
       toast.success('success')
       handleClose()
       refetchSocialIcon()
