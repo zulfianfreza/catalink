@@ -7,6 +7,7 @@ import { HiEmojiHappy } from 'react-icons/hi'
 import { LuSearch } from 'react-icons/lu'
 import ContentContainer from '~/components/ContentContainer'
 import Logo from '~/components/Logo'
+import CardHideLogo from '~/components/card/CardHideLogo'
 import CardSeo from '~/components/card/CardSeo'
 import CardSocialIcon from '~/components/card/CardSocialIcon'
 import ModalAddSocialIcon from '~/components/modal/ModalAddSocialIcon'
@@ -42,25 +43,6 @@ export default function SettingsPage() {
     hotReloadIframe: refetch,
     isLoading: isLoadingTheme,
   } = useTheme()
-  const [hideLogo, setHideLogo] = React.useState<boolean>(
-    theme?.hideLogo ?? false
-  )
-
-  React.useEffect(() => {
-    setHideLogo(theme?.hideLogo ?? false)
-  }, [])
-
-  const updateThemeMutation = trpc.theme.updateTheme.useMutation({
-    onSuccess() {
-      refetch()
-      toast.success('success')
-    },
-  })
-
-  const handleHideLogo = () => {
-    setHideLogo(!hideLogo)
-    updateThemeMutation.mutateAsync({ hideLogo: !hideLogo })
-  }
 
   return (
     <>
@@ -105,17 +87,7 @@ export default function SettingsPage() {
               </div>
 
               <div className=' mt-8'>
-                <div className=' w-full rounded-[24px] bg-white p-6'>
-                  <div className='flex justify-between'>
-                    <p className=' font-medium text-gray-800'>Hide the Logo</p>
-                    <Switch
-                      className=' data-[state=checked]:bg-green-700 data-[state=unchecked]:bg-gray-200'
-                      checked={hideLogo}
-                      onCheckedChange={handleHideLogo}
-                    />
-                  </div>
-                  <Logo className=' mt-4' />
-                </div>
+                <CardHideLogo theme={theme} refetch={refetch} />
               </div>
 
               <div className=' mt-8'>
