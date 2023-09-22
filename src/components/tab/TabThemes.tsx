@@ -1,7 +1,7 @@
 import { Theme } from '@prisma/client'
 import axios from 'axios'
 import { Balsamiq_Sans } from 'next/font/google'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { HiOutlinePhotograph } from 'react-icons/hi'
 import { deleteImageCloudinary } from '~/hooks/useHandleDeleteImage'
@@ -35,6 +35,10 @@ export function TabThemes({ theme, refetch }: TabThemesProps) {
   const [backgroundType, setBackgroundType] = useState(
     theme?.backgroundType ?? BACKGROUND_TYPE.SOLID
   )
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
 
   // React.useEffect(() => {
   //   setBackgroundType(theme?.backgroundType ?? BACKGROUND_TYPE.SOLID)
@@ -99,6 +103,11 @@ export function TabThemes({ theme, refetch }: TabThemesProps) {
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let file: File
     if (e.target.files && e.target.files[0]) {
+      if (e.target.files[0].size > 2e6) {
+        setError('Please upload a file smaller than 5 MB')
+        return false
+      }
+      setError('')
       file = e.target.files[0]
     }
 
@@ -107,6 +116,8 @@ export function TabThemes({ theme, refetch }: TabThemesProps) {
     formData.append('upload_preset', config.cloudinaryUploadPreset)
 
     try {
+      setIsLoading(true)
+      previewLoading.setIsLoading(true)
       if (theme?.backgroundImage !== '') {
         await deleteImageCloudinary(theme?.backgroundImage ?? '')
       }
@@ -118,6 +129,14 @@ export function TabThemes({ theme, refetch }: TabThemesProps) {
       handleUpdate({ backgroundImage: response.data.secure_url })
     } catch (error) {
       toast.error(JSON.stringify(error))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleClick = () => {
+    if (inputRef.current) {
+      inputRef.current.click()
     }
   }
 
@@ -470,15 +489,52 @@ export function TabThemes({ theme, refetch }: TabThemesProps) {
             <div className=' mt-8 flex flex-col'>
               <p className=' text-sm text-gray-700'>Image</p>
               <div className=' mt-2 self-start'>
-                <label
-                  htmlFor='backgroundImage'
-                  className=' flex h-10 cursor-pointer items-center justify-center rounded-md bg-violet-700 px-4 text-sm text-white'
+                <button
+                  // htmlFor='backgroundImage'
+                  onClick={handleClick}
+                  disabled={isLoading}
+                  className=' flex h-10 cursor-pointer items-center justify-center rounded-md bg-violet-700 px-4 text-sm text-white disabled:bg-violet-400'
                 >
-                  Upload Image
-                </label>
+                  {isLoading ? (
+                    <>
+                      <svg
+                        className='-ml-1 mr-3 h-5 w-5 animate-spin text-white'
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                      >
+                        <circle
+                          className='opacity-25'
+                          cx={12}
+                          cy={12}
+                          r={10}
+                          stroke='currentColor'
+                          strokeWidth={4}
+                        />
+                        <path
+                          className='opacity-75'
+                          fill='currentColor'
+                          d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                        />
+                      </svg>
+                      <p>Uploading</p>
+                    </>
+                  ) : (
+                    <p>
+                      {theme?.backgroundImage != ''
+                        ? 'Change Image'
+                        : 'Upload Image'}
+                    </p>
+                  )}
+                </button>
+                {error != '' && (
+                  <p className=' mt-1 text-xs text-red-700'>{error}</p>
+                )}
                 <input
                   type='file'
                   name=''
+                  accept='image/png, image/jpg, image/jpeg'
+                  ref={inputRef}
                   onChange={handleUploadImage}
                   id='backgroundImage'
                   className=' hidden'

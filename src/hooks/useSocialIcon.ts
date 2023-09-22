@@ -1,7 +1,7 @@
 import { trpc } from '~/lib/trpc'
 
 export default function useSocialIcon() {
-  const { data, refetch } = trpc.socialicon.getSocialIcon.useQuery()
+  const { data, refetch, isLoading } = trpc.socialicon.getSocialIcon.useQuery()
 
   const hotReloadIframe = async () => {
     const socialIcon = await refetch()
@@ -21,5 +21,6 @@ export default function useSocialIcon() {
   return {
     data,
     hotReloadIframe,
+    isLoading,
   }
 }
