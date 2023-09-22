@@ -5,6 +5,7 @@ import { trpc } from '~/lib/trpc'
 import { BUTTON_TYPE } from '~/types/theme'
 import ButtonTheme from '../ButtonTheme'
 import ColorPicker from '../ColorPicker'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 // import { refetchTheme } from '@/lib/hotReloadIframe'
 
 interface TabButtonProps {
@@ -26,11 +27,17 @@ export function TabButtons({ theme, refetch }: TabButtonProps) {
     theme?.buttonFontColor ?? '#000000'
   )
 
+  const previewLoading = usePreviewLoading()
+
   const updateThemeMutation = trpc.theme.updateTheme.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess: () => {
       refetch()
       toast.success('success')
       refetch()
+      previewLoading.setIsLoading(false)
     },
   })
 

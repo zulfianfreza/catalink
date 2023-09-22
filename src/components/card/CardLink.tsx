@@ -17,6 +17,7 @@ import useAddThumbnailIconModal from '~/hooks/useAddThumbnailIconModal'
 import { SOCIAL_ICON_LIST } from '~/lib/data/social-icon'
 import Icon from '../Icon'
 import Image from 'next/image'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 interface CardLinkProps {
   link: Link
@@ -45,8 +46,14 @@ export const CardLink: React.FC<CardLinkProps> = ({
 
   const addThumbnailIconModal = useAddThumbnailIconModal()
 
+  const previewLoading = usePreviewLoading()
+
   const updateLinkMutation = trpc.link.updateLink.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess() {
+      previewLoading.setIsLoading(false)
       refetch()
       toast.success('Success')
       hotReload()
@@ -75,7 +82,11 @@ export const CardLink: React.FC<CardLinkProps> = ({
   }
 
   const deleteMutation = trpc.link.deleteLink.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess: () => {
+      previewLoading.setIsLoading(false)
       refetch()
       hotReload()
       toast.success('success')

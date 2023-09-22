@@ -2,9 +2,10 @@ import type { Link } from '@prisma/client'
 import React, { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { HiOutlinePencil, HiOutlineTrash, HiOutlineX } from 'react-icons/hi'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
+import { trpc } from '~/lib/trpc'
 import { cn } from '~/lib/utils'
 import { Switch } from '../ui/switch'
-import { trpc } from '~/lib/trpc'
 
 interface CardYoutubeProps {
   link: Link
@@ -17,15 +18,19 @@ export const CardYoutube: React.FC<CardYoutubeProps> = ({
   refetch,
   hotReload,
 }) => {
-  const [liveEditTitle, setLiveEditTitle] = useState(false)
   const [liveEditContent, setLiveEditContent] = useState(false)
-  const [label, setLabel] = useState(link.label ?? '')
   const [content, setContent] = useState(link.content ?? '')
   const [active, setActive] = useState(link.active ?? true)
   const [showDelete, setShowdelete] = useState(false)
 
+  const previewLoading = usePreviewLoading()
+
   const updateLinkMutation = trpc.link.updateLink.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess() {
+      previewLoading.setIsLoading(false)
       refetch()
       toast.success('Success')
       hotReload()
@@ -33,18 +38,12 @@ export const CardYoutube: React.FC<CardYoutubeProps> = ({
   })
 
   const handleUpdate = (active?: boolean) => {
-    updateLinkMutation.mutateAsync({ linkId: link.id, active, label, content })
+    updateLinkMutation.mutateAsync({ linkId: link.id, active, content })
   }
 
   const handleUpdateActive = () => {
     setActive(!active)
     handleUpdate(!active)
-  }
-
-  const onBlurTitle = () => {
-    setLiveEditTitle(!liveEditTitle)
-    if (label === link.label) return
-    handleUpdate()
   }
 
   const onBlurContent = () => {

@@ -8,6 +8,7 @@ import { SiYoutube } from 'react-icons/si'
 import { trpc } from '~/lib/trpc'
 import { cn, isValidUrl } from '~/lib/utils'
 import { Input } from './ui/input'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 interface AddLinkProps {
   refetch: () => void
@@ -18,8 +19,14 @@ export default function AddLink({ refetch }: AddLinkProps) {
   const [url, setUrl] = useState('')
   const [displayDialog, setDisplayDialog] = useState(false)
 
+  const previewLoading = usePreviewLoading()
+
   const createLinkMutation = trpc.link.createLink.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess: () => {
+      previewLoading.setIsLoading(false)
       setUrl('')
       setAddLink(!addLink)
       toast.success('success')

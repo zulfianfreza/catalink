@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast'
 import Avatar from '~/components/Avatar'
 import { Input } from '~/components/ui/input'
 import { deleteImageCloudinary } from '~/hooks/useHandleDeleteImage'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 import { config } from '~/lib/config'
 import { trpc } from '~/lib/trpc'
 import { cn } from '~/lib/utils'
@@ -25,8 +26,14 @@ export function TabProfile({ profile, refetch, user }: TabProfileProps) {
   const [isLoading, setIsLoading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const previewLoading = usePreviewLoading()
+
   const updateProfileMutation = trpc.site.updateSiteProfile.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess: () => {
+      previewLoading.setIsLoading(false)
       toast.success('success')
       refetch()
     },

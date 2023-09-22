@@ -11,6 +11,7 @@ import { Tooltip } from 'react-tooltip'
 import { trpc } from '~/lib/trpc'
 import { cn } from '~/lib/utils'
 import { Switch } from '../ui/switch'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 interface CardTextLinkProps {
   link: Link
@@ -37,8 +38,14 @@ export const CardTextLink: React.FC<CardTextLinkProps> = ({
   const [showCollapse, setShowCollapse] = useState(false)
   const [collapse, setCollapse] = useState(COLLAPSE.INITIAL)
 
+  const previewLoading = usePreviewLoading()
+
   const updateLinkMutation = trpc.link.updateLink.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess() {
+      previewLoading.setIsLoading(false)
       refetch()
       toast.success('Success')
       hotReload()

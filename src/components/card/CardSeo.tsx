@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Input } from '../ui/input'
 import { trpc } from '~/lib/trpc'
 import { toast } from 'react-hot-toast'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 interface CardSeoProps {
   site: Site | undefined | null
@@ -14,8 +15,14 @@ export default function CardSeo({ site, refetch }: CardSeoProps) {
     site?.metaDescription ?? ''
   )
 
+  const previewLoading = usePreviewLoading()
+
   const updateSiteMutation = trpc.site.updateSiteProfile.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess() {
+      previewLoading.setIsLoading(false)
       refetch()
       toast.success('success')
     },

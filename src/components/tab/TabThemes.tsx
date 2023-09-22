@@ -10,6 +10,7 @@ import { cn } from '~/lib/utils'
 import { BACKGROUND_TYPE } from '~/types/theme'
 import ColorPicker from '../ColorPicker'
 import { config } from '~/lib/config'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 const balsamiqSans = Balsamiq_Sans({
   subsets: ['latin'],
@@ -39,8 +40,14 @@ export function TabThemes({ theme, refetch }: TabThemesProps) {
   //   setBackgroundType(theme?.backgroundType ?? BACKGROUND_TYPE.SOLID)
   // })
 
+  const previewLoading = usePreviewLoading()
+
   const updateThemeMutation = trpc.theme.updateTheme.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess: () => {
+      previewLoading.setIsLoading(false)
       toast.success('success')
       refetch()
     },

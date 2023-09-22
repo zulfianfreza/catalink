@@ -17,6 +17,7 @@ import useAddThumbnailIconModal from '~/hooks/useAddThumbnailIconModal'
 import { trpc } from '~/lib/trpc'
 import { cn } from '~/lib/utils'
 import { Switch } from '../ui/switch'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 interface CardHeaderProps {
   link: Link
@@ -44,8 +45,14 @@ export const CardHeader: React.FC<CardHeaderProps> = ({
 
   const addThumbnailIconModal = useAddThumbnailIconModal()
 
+  const previewLoading = usePreviewLoading()
+
   const updateLinkMutation = trpc.link.updateLink.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess() {
+      previewLoading.setIsLoading(false)
       refetch()
       toast.success('Success')
       hotReload()

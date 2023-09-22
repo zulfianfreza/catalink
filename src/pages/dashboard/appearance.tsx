@@ -45,7 +45,7 @@ export default function AppearancePage() {
               </TabsTrigger>
             ))}
           </TabsList>
-          {isLoadingUser ? (
+          {isLoadingSite ? (
             <div className=' flex h-full w-full items-center justify-center'>
               <svg
                 className='-ml-1 mr-3 h-5 w-5 animate-spin text-violet-700'

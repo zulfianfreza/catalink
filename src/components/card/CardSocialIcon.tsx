@@ -8,6 +8,7 @@ import useTheme from '~/hooks/useTheme'
 import useAddSocialIconModal from '~/hooks/useAddSocialIconModal'
 import ModalAddSocialIcon from '../modal/ModalAddSocialIcon'
 import ModalEditSocialIcon from '../modal/ModalEditSocialIcon'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 interface CardSocialIconProps {
   socialIcons: SocialIcon[] | undefined
@@ -25,8 +26,14 @@ export default function CardSocialIcon({
 
   const { hotReloadIframe } = useTheme()
 
+  const previewLoading = usePreviewLoading()
+
   const updateSocialIconPositionMutation = trpc.theme.updateTheme.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess: () => {
+      previewLoading.setIsLoading(false)
       toast.success('success')
       hotReloadIframe()
     },

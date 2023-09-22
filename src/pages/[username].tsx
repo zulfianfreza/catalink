@@ -76,8 +76,16 @@ export default function CirclePage({
 
   if (!user) {
     return (
-      <div className=' flex min-h-screen w-full items-center justify-center'>
-        <h1>The page you’re looking for doesn’t exist.</h1>
+      <div className=' flex h-screen w-full items-center justify-center'>
+        <div className=' flex h-full max-w-lg items-center p-5'>
+          <h1 className=' text-center text-xl text-gray-800'>
+            The page you’re looking for doesn’t exist. Please check back soon.
+          </h1>
+          <Logo
+            className=' absolute bottom-5 right-1/2 translate-x-1/2'
+            path='/'
+          />
+        </div>
       </div>
     )
   }

@@ -9,6 +9,7 @@ import { trpc } from '~/lib/trpc'
 import { cn } from '~/lib/utils'
 import ColorPicker from '../ColorPicker'
 import { Input } from '../ui/input'
+import usePreviewLoading from '~/hooks/usePreviewLoading'
 
 interface TabFontsProps {
   theme: Theme | null | undefined
@@ -43,8 +44,14 @@ export function TabFonts({ theme, refetch }: TabFontsProps) {
     setSearchFont(e.target.value)
   }
 
+  const previewLoading = usePreviewLoading()
+
   const updateThemeMutation = trpc.theme.updateTheme.useMutation({
+    onMutate: () => {
+      previewLoading.setIsLoading(true)
+    },
     onSuccess: () => {
+      previewLoading.setIsLoading(false)
       toast.success('success')
       setSearchFont('')
       setSelectedFont(theme?.fontFamily ?? 'Poppins')

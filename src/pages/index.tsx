@@ -1,15 +1,12 @@
 import { GetServerSideProps } from 'next'
-import { Session, User, getServerSession } from 'next-auth'
+import { User } from 'next-auth'
 import { getSession, signOut } from 'next-auth/react'
 import { NextSeo } from 'next-seo'
 import Image from 'next/image'
 import Link from 'next/link'
 import { HiChevronRight } from 'react-icons/hi'
-import { LuChevronLeft, LuChevronRight } from 'react-icons/lu'
-import { SiSnapchat, SiTiktok, SiX } from 'react-icons/si'
 import Logo from '~/components/Logo'
 import { useScrollPosition } from '~/hooks/useScrollPosition'
-import { authOptions } from '~/lib/auth'
 import { cn } from '~/lib/utils'
 
 interface HomeProps {
@@ -20,7 +17,7 @@ export default function Home({ user }: HomeProps) {
   const scroll = useScrollPosition()
   return (
     <>
-      <NextSeo title='Circle' />
+      <NextSeo title='Catalink' />
       <div className=' min-h-screen w-full'>
         {/* NAVBAR */}
         <div
