@@ -12,7 +12,6 @@ import { useBackgroundStyle } from '~/hooks/useBackgroundStyle'
 import { getButtonTheme, getThumbnailTheme } from '~/hooks/useButtonTheme'
 import useDataUpdated from '~/hooks/useDataUpdated'
 import { getHeaderPosition, useThemeStyle } from '~/hooks/useThemeStyle'
-import { plusJakartaSans } from '~/lib/data/font'
 import { SOCIAL_ICON_LIST } from '~/lib/data/social-icon'
 import { prisma } from '~/lib/db'
 import { trpc } from '~/lib/trpc'
@@ -101,7 +100,11 @@ export default function CirclePage({
       <div className=' bg-black/25 backdrop-blur-2xl'>
         <NextSeo
           title={`${
-            site.metaTitle != '' ? site.metaTitle : profileTitle
+            site.metaTitle && site.metaTitle != ''
+              ? site.metaTitle
+              : profileTitle
+              ? profileTitle
+              : user.name
           } - Catalink`}
           description={site.metaDescription ?? ''}
         />
