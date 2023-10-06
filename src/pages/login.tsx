@@ -8,10 +8,10 @@ export default function LoginPage() {
   return (
     <div className=' relative flex min-h-screen w-full bg-white'>
       <div className=' flex-1'>
-        <div className=' flex w-full justify-center p-8 lg:p-10'>
-          <div className=' flex w-full max-w-[480px] flex-col justify-center pt-28 lg:w-[560px] lg:max-w-[640px] lg:p-10 xl:w-[640px]'>
+        <div className=' flex h-screen w-full items-center justify-center  p-8 lg:p-10'>
+          <div className=' flex w-full max-w-xl flex-col justify-center pt-28 lg:p-10'>
             <div className=' text-center'>
-              <h1 className=' text-[44px] font-bold'>Welcome Back</h1>
+              <h1 className=' text-[36px] font-bold'>Welcome Back</h1>
               <p className='  text-gray-500'>Login to your Catalink</p>
             </div>
             {/* <div className=' mt-16 space-y-3'>

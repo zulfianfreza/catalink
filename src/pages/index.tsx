@@ -46,18 +46,20 @@ export default function Home({ user }: HomeProps) {
                   </Link>
                 </div>
               ) : (
-                <div className=' flex flex-row-reverse items-center gap-x-4'>
+                <div className=' flex flex-row-reverse items-center gap-x-2'>
                   <Link
                     href='/login'
-                    className=' flex h-12 items-center justify-center rounded-full bg-violet-700 px-8 text-sm text-white'
+                    className=' flex h-10 items-center justify-center rounded-lg bg-gradient-to-r from-violet-700 to-indigo-700 px-4 text-sm text-white'
                   >
                     Register
                   </Link>
                   <Link
                     href='/login'
-                    className=' flex items-center justify-center rounded-lg p-1 text-sm text-gray-800'
+                    className=' h-10 rounded-lg bg-gradient-to-r from-violet-700 to-indigo-700 p-[1.5px]'
                   >
-                    Login
+                    <div className=' flex h-full w-full items-center justify-center rounded-[6.5px] bg-white px-4 text-sm font-medium text-gray-800 transition hover:bg-transparent hover:bg-opacity-90 hover:text-white '>
+                      Login
+                    </div>
                   </Link>
                 </div>
               )}
@@ -65,18 +67,21 @@ export default function Home({ user }: HomeProps) {
           </div>
         </div>
 
-        <div className=' relative isolate flex h-screen w-full bg-gradient-to-b from-violet-100 to-white p-10 pt-20 lg:p-20'>
+        <div className=' relative isolate flex h-screen w-full bg-white p-10 pt-20 lg:p-20'>
           <div
             aria-hidden='true'
-            className='pointer-events-none absolute inset-x-0 -top-20 right-0 -z-10 transform-gpu overflow-hidden blur-3xl'
+            className='pointer-events-none absolute inset-x-0 bottom-20 left-20 -z-10 transform-gpu overflow-hidden leading-none blur-3xl'
           >
-            <div
+            <p className=' bg-gradient-to-r from-violet-500 to-violet-900 bg-clip-text text-[520px] text-transparent opacity-50'>
+              Oo
+            </p>
+            {/* <div
               style={{
                 clipPath:
                   'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
               }}
-              className='relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-violet-700 opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]'
-            />
+              className='relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-violet-700 to-indigo-700 opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]'
+            /> */}
           </div>
           <div className=' flex flex-1 flex-col justify-center'>
             <div className='flex flex-col'>
