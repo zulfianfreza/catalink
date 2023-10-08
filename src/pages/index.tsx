@@ -72,9 +72,9 @@ export default function Home({ user }: HomeProps) {
             aria-hidden='true'
             className='pointer-events-none absolute inset-x-0 bottom-20 left-20 -z-10 transform-gpu overflow-hidden leading-none blur-3xl'
           >
-            <p className=' bg-gradient-to-r from-violet-500 to-violet-900 bg-clip-text text-[520px] text-transparent opacity-50'>
+            {/* <p className=' bg-gradient-to-r from-violet-500 to-violet-900 bg-clip-text text-[520px] text-transparent opacity-50'>
               Oo
-            </p>
+            </p> */}
             {/* <div
               style={{
                 clipPath:
@@ -108,7 +108,7 @@ export default function Home({ user }: HomeProps) {
               </div> */}
               <Link
                 href='/login'
-                className=' flex h-12 items-center justify-center rounded-full bg-violet-700 px-8 text-sm text-white '
+                className=' flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-violet-700 to-indigo-700 px-8 text-sm text-white '
               >
                 <p className=' flex items-center gap-x-1'>
                   Try It Now <HiChevronRight size={20} />
@@ -117,13 +117,18 @@ export default function Home({ user }: HomeProps) {
             </div>
           </div>
           <div className='hidden flex-1 justify-center md:flex'>
-            <div className=' relative md:w-[350px] lg:w-[450px] xl:w-[500px]'>
-              <Image
-                src='/images/thumbnail-hero.png'
-                fill
-                alt=''
-                className=' object-contain'
-              />
+            <div className='relative md:w-[350px] lg:w-[450px] xl:w-[500px]'>
+              <div className=' absolute aspect-square rounded-full bg-indigo-200 md:bottom-56 md:right-0 md:h-32 lg:bottom-48 lg:h-36 xl:h-48'></div>
+              <div className=' absolute aspect-square rounded-full bg-violet-300 md:bottom-32 md:h-32 lg:bottom-16 lg:h-36 xl:h-48'></div>
+              <div className=' absolute aspect-square translate-x-1/2 rounded-full bg-indigo-600 md:right-1/2 md:top-24 md:h-32 lg:top-0 lg:top-4 lg:h-36 xl:h-48'></div>
+              <div className=' relative h-full w-full'>
+                <Image
+                  src='/images/thumbnail-hero.png'
+                  fill
+                  alt=''
+                  className=' object-contain'
+                />
+              </div>
             </div>
             {/* <div className=' relative'>
               <div className=' relative aspect-[1/2] w-[320px] scale-90 overflow-hidden rounded-[40px]'>
